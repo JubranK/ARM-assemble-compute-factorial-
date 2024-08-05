@@ -1,24 +1,19 @@
 ;;Jubran Khoury 1201264 
 
-;;; Directives
- PRESERVE8
- THUMB 
- 
-; Vector Table Mapped to Address 0 at Reset
-; Linker requires __Vectors to be exported
-	AREA RESET, DATA, READONLY
-	EXPORT __Vectors
-__Vectors DCD INITIAL_MSP 
-	DCD Reset_Handler ; reset vector
+PRESERVE8
+THUMB
+INITIAL_MSP EQU 0x20001000
+
+AREA RESET, DATA, READONLY
+EXPORT __Vectors
+__Vectors DCD INITIAL_MSP
+	DCD Reset_Handler
 	ALIGN
-; The program
-; Linker requires Reset_Handler
-	AREA MYCODE, CODE, READONLY
-	ENTRY
-	EXPORT Reset_Handler
-	ALIGN
-		
-;;; Define Procedures
+
+AREA MYCODE, CODE, READONLY
+ENTRY
+EXPORT Reset_Handler
+ALIGN
 
 FACTORIAL PROC
 	
@@ -28,30 +23,28 @@ LOOP
     CMP R1, #0
     BEQ ENDD
     B LOOP
- 
 
 ZEROFACTORIAL
-    MOV R0, #1 ; the result is 1
+    MOV R0, #1
 	
     ENDP
-		
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Reset_Handler
-    MOV R1, #5 ; the input number
-    MOV R0, #1 ; to contain the result
+    MOV R1, #5
+    MOV R0, #1
 
-    MOV R2, #0 ; to compare the input number with 0 if equal then the result is 1
+    MOV R2, #0
     CMP R1, R2
     BEQ ZEROFACTORIAL
     BL FACTORIAL
 
-
-
-
 ENDD
 
 STOP
+    B STOP
+
+    END
+
     B STOP
 
     END
