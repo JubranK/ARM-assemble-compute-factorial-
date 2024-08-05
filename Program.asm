@@ -45,6 +45,4 @@ STOP
 
     END
 
-    B STOP
 
-    END
